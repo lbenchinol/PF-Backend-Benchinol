@@ -1,0 +1,112 @@
+[
+    {
+        "id": 1,
+        "title": "Producto A",
+        "description": "Descripcion del producto A",
+        "price": 100,
+        "thumbnail": "Sin imagen",
+        "code": "a1",
+        "stock": 10,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 2,
+        "title": "Producto B",
+        "description": "Descripcion del producto B",
+        "price": 200,
+        "thumbnail": "Sin imagen",
+        "code": "b2",
+        "stock": 20,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 3,
+        "title": "Producto C",
+        "description": "Descripcion del producto C",
+        "price": 300,
+        "thumbnail": "Sin imagen",
+        "code": "c3",
+        "stock": 30,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 4,
+        "title": "Producto D",
+        "description": "Descripcion del producto D",
+        "price": 400,
+        "thumbnail": "Sin imagen",
+        "code": "d4",
+        "stock": 40,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 5,
+        "title": "Producto E",
+        "description": "Descripcion del producto E",
+        "price": 500,
+        "thumbnail": "Sin imagen",
+        "code": "e5",
+        "stock": 50,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 6,
+        "title": "Producto F",
+        "description": "Descripcion del producto F",
+        "price": 600,
+        "thumbnail": "Sin imagen",
+        "code": "f6",
+        "stock": 60,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 7,
+        "title": "Producto G",
+        "description": "Descripcion del producto G",
+        "price": 700,
+        "thumbnail": "Sin imagen",
+        "code": "g7",
+        "stock": 70,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": "8",
+        "title": "Producto H",
+        "description": "Descripcion del producto H",
+        "price": 800,
+        "thumbnail": "Sin imagen",
+        "code": "h8",
+        "stock": 80,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 9,
+        "title": "Producto I",
+        "description": "Descripcion del producto I",
+        "price": 900,
+        "thumbnail": "Sin imagen",
+        "code": "i9",
+        "stock": 90,
+        "category": "",
+        "status": true
+    },
+    {
+        "id": 10,
+        "title": "Producto J",
+        "description": "Descripcion del producto J",
+        "price": 1000,
+        "thumbnail": "Sin imagen",
+        "code": "j10",
+        "stock": 100,
+        "category": "",
+        "status": true
+    }
+]
