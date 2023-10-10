@@ -98,7 +98,6 @@ class ProductManager {
             console.log(`Error, el ID:${id} no se encontró en el listado de productos`);
             return false;
         } else {
-            console.log(productFound);
             return productFound;
         }
     }

@@ -5,6 +5,9 @@ const router = Router();
 import CartManager from '../cartManager.js';
 const cartManager = new CartManager('./carts.json');
 
+import ProductManager from '../productManager.js';
+const productManager = new ProductManager('./products.json');
+
 router.post('/carts', async (req, res) => {
     await cartManager.addCart();
     res.status(201).json({ status: 'success', message: 'Nuevo carrito creado' });
@@ -37,7 +40,7 @@ router.post('/carts/:cId/product/:pId', async (req, res) => {
         res.status(400).json({ status: 'error', message: 'Ingrese los valores correctamente' });
         return;
     } else {
-        await cartManager.updateCart(parseInt(cId), req.body);
+        await cartManager.updateCart(parseInt(cId),parseInt(pId), quantity);
         res.status(200).json({ status: 'success', message: 'Carrito actualizado correctamente' });
     }
 });

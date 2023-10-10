@@ -19,20 +19,18 @@ class CartManager {
         } while (condition);
 
         carts.push({ id: counter, products: [] });
-        await saveJSON(this.path, products);
+        await saveJSON(this.path, carts);
         console.log(`Carrito agregado correctamente con ID:${counter}`);
     }
 
-    async updateCart(id, addProduct) {
-        const { product, quantity } = addProduct;
+    async updateCart(cId, pId, quantity) {
         const carts = await getJSON(this.path);
-
-        if (this.getCartById(id)) {
+        if (this.getCartById(cId)) {
             const newCarts = carts.map((c) => {
-                if (c.id === id) {
-                    if (c.products.find(p => p.id === id)) {
+                if (c.id === cId) {
+                    if (c.products.find(p => p.id === pId)) {
                         const newProducts = c.products.map((p) => {
-                            if (p.id === id) {
+                            if (p.id === pId) {
                                 p.quantity += quantity;
                                 return p;
                             } else {
@@ -41,7 +39,7 @@ class CartManager {
                         });
                         c.products = newProducts;
                     } else {
-                        c.products.push(addProduct);
+                        c.products.push({ id: pId, quantity: quantity });
                     }
                     return c;
                 } else {

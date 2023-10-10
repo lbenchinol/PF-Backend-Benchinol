@@ -63,7 +63,7 @@
         "stock": 70
     },
     {
-        "id": "8",
+        "id": 8,
         "title": "Producto H",
         "description": "Descripcion del producto H",
         "price": 800,
