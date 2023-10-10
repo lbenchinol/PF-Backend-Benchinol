@@ -71,7 +71,7 @@ class ProductManager {
     async deleteProduct(id) {
         const products = await getJSON(this.path);
         if (this.getProductById(id)) {
-            const newProducts = products.map(p => p.id !== id);
+            const newProducts = products.filter(p => p.id !== id);
             await saveJSON(this.path, newProducts);
             console.log(`El ID:${id} se borró correctamente.`);
         }
@@ -87,7 +87,6 @@ class ProductManager {
                 return limitedProducts;
             }
         } else {
-            console.log(await getJSON(this.path));
             return await getJSON(this.path);
         }
     }
@@ -95,7 +94,6 @@ class ProductManager {
     async getProductById(id) {
         const products = await getJSON(this.path);
         const productFound = products.find(p => p.id === id);
-        console.log(productFound);
         if (productFound === undefined) {
             console.log(`Error, el ID:${id} no se encontró en el listado de productos`);
             return false;

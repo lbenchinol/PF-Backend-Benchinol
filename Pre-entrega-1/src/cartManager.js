@@ -56,7 +56,7 @@ class CartManager {
     async deleteCart(id) {
         const carts = await getJSON(this.path);
         if (this.getCartById(id)) {
-            const newCarts = carts.map(p => p.id !== id);
+            const newCarts = carts.filter(p => p.id !== id);
             await saveJSON(this.path, newCarts);
             console.log(`El ID:${id} se borró correctamente.`);
         }
