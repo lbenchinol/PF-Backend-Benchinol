@@ -6,7 +6,8 @@
         "price": 100,
         "thumbnail": "Sin imagen",
         "code": "a1",
-        "stock": 10
+        "stock": 10,
+		"status": true
     },
     {
         "id": 2,
@@ -15,7 +16,8 @@
         "price": 200,
         "thumbnail": "Sin imagen",
         "code": "b2",
-        "stock": 20
+        "stock": 20,
+		"status": true
     },
     {
         "id": 3,
@@ -24,7 +26,8 @@
         "price": 300,
         "thumbnail": "Sin imagen",
         "code": "c3",
-        "stock": 30
+        "stock": 30,
+		"status": true
     },
     {
         "id": 4,
@@ -33,7 +36,8 @@
         "price": 400,
         "thumbnail": "Sin imagen",
         "code": "d4",
-        "stock": 40
+        "stock": 40,
+		"status": true
     },
     {
         "id": 5,
@@ -42,7 +46,8 @@
         "price": 500,
         "thumbnail": "Sin imagen",
         "code": "e5",
-        "stock": 50
+        "stock": 50,
+		"status": true
     },
     {
         "id": 6,
@@ -51,7 +56,8 @@
         "price": 600,
         "thumbnail": "Sin imagen",
         "code": "f6",
-        "stock": 60
+        "stock": 60,
+		"status": true
     },
     {
         "id": 7,
@@ -60,7 +66,8 @@
         "price": 700,
         "thumbnail": "Sin imagen",
         "code": "g7",
-        "stock": 70
+        "stock": 70,
+		"status": true
     },
     {
         "id": 8,
@@ -69,7 +76,8 @@
         "price": 800,
         "thumbnail": "Sin imagen",
         "code": "h8",
-        "stock": 80
+        "stock": 80,
+		"status": true
     },
     {
         "id": 9,
@@ -78,7 +86,8 @@
         "price": 900,
         "thumbnail": "Sin imagen",
         "code": "i9",
-        "stock": 90
+        "stock": 90,
+		"status": true
     },
     {
         "id": 10,
@@ -87,6 +96,7 @@
         "price": 1000,
         "thumbnail": "Sin imagen",
         "code": "j10",
-        "stock": 100
+        "stock": 100,
+		"status": true
     }
 ]

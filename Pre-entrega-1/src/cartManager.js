@@ -28,9 +28,9 @@ class CartManager {
         if (this.getCartById(cId)) {
             const newCarts = carts.map((c) => {
                 if (c.id === cId) {
-                    if (c.products.find(p => p.id === pId)) {
+                    if (c.products.find(p => p.product === pId)) {
                         const newProducts = c.products.map((p) => {
-                            if (p.id === pId) {
+                            if (p.product === pId) {
                                 p.quantity += quantity;
                                 return p;
                             } else {
@@ -39,7 +39,7 @@ class CartManager {
                         });
                         c.products = newProducts;
                     } else {
-                        c.products.push({ id: pId, quantity: quantity });
+                        c.products.push({ product: pId, quantity: quantity });
                     }
                     return c;
                 } else {
@@ -47,7 +47,7 @@ class CartManager {
                 }
             });
             await saveJSON(this.path, newCarts);
-            console.log(`El ID:${id} se actualizó correctamente.`);
+            console.log(`El ID:${cId} se actualizó correctamente.`);
         }
     }
 
@@ -63,12 +63,10 @@ class CartManager {
     async getCartById(id) {
         const carts = await getJSON(this.path);
         const cartFound = carts.find(c => c.id === id);
-        console.log(cartFound);
         if (cartFound === undefined) {
             console.log(`Error, el ID:${id} no se encontró en el listado de carritos`);
             return false;
         } else {
-            console.log(cartFound);
             return cartFound;
         }
     }
@@ -92,6 +90,9 @@ const getJSON = async (path) => {
         content = await fs.promises.readFile(path, 'utf-8');
     } catch (error) {
         throw new Error(`El archivo ${path} no pudo ser leido.`);
+    }
+    if (content === "") {
+        return [];
     }
     try {
         return JSON.parse(content);

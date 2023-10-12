@@ -8,12 +8,13 @@ class ProductManager {
     async addProduct(product) {
         const products = await getJSON(this.path);
         let { title, description, price, thumbnail, code, stock, category, status } = product;
-        title = title.trim();
-        description = description.trim();
-        thumbnail = thumbnail.trim();
-        code = code.trim();
-        category = category.trim();
+        title !== "" ? title.trim() : title;
+        description !== "" ? description.trim() : description;
+        thumbnail !== "" ? thumbnail.trim() : thumbnail;
+        code !== "" ? code.trim() : code;
+        category !== "" ? category.trim() : category;
         status = true;
+        const newProduct = { title, description, price, thumbnail, code, stock, category, status };
 
         if (title == "" || description == "" || price < 0 || code == "" || stock < 0 || category == "") {
             console.log('Ingrese los valores correctamente');
@@ -31,7 +32,7 @@ class ProductManager {
                     }
                 } while (condition);
 
-                products.push({ id: counter, ...product });
+                products.push({ id: counter, ...newProduct });
                 console.log(`Producto "${title}" agregado correctamente`);
             }
         }
@@ -40,11 +41,11 @@ class ProductManager {
 
     async updateProduct(id, productUpdated) {
         const { title, description, price, thumbnail, code, stock, category, status } = productUpdated;
-        title = title.trim();
-        description = description.trim();
-        thumbnail = thumbnail.trim();
-        code = code.trim();
-        category = category.trim();
+        title !== "" ? title.trim() : title;
+        description !== "" ? description.trim() : description;
+        thumbnail !== "" ? thumbnail.trim() : thumbnail;
+        code !== "" ? code.trim() : code;
+        category !== "" ? category.trim() : category;
         const products = await getJSON(this.path);
 
         if (this.getProductById(id)) {
