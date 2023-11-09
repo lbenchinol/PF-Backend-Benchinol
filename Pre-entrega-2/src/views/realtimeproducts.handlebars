@@ -1,0 +1,22 @@
+<div class="center">
+    <h1>Productos por websocket</h1>
+</div>
+
+<table role="grid">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">title</th>
+            <th scope="col">description</th>
+            <th scope="col">price</th>
+            <th scope="col">thumbnail</th>
+            <th scope="col">code</th>
+            <th scope="col">stock</th>
+            <th scope="col">status</th>
+        </tr>
+    </thead>
+    <tbody id="products-list"></tbody>
+</table>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtimeproducts.js"></script>
