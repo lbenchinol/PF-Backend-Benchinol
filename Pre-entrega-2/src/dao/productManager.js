@@ -107,8 +107,8 @@ export default class ProductManager {
             page: data.page,
             hasPrevPage: data.hasPrevPage,
             hasNextPage: data.hasNextPage,
-            prevLink: data.prevPage ? `http://localhost:${PORT}/products?limit=${data.limit}&page=${data.prevPage}${data.category ? `&category=${data.category}` : ''}${data.stock ? `&stock=${data.stock}` : ''}` : '',
-            nextLink: data.nextPage ? `http://localhost:${PORT}/products?limit=${data.limit}&page=${data.nextPage}${data.category ? `&category=${data.category}` : ''}${data.stock ? `&stock=${data.stock}` : ''}` : '',
+            prevLink: data.prevPage ? `http://localhost:${PORT}/products?limit=${data.limit}&page=${data.prevPage}${data.category ? `&category=${data.category}` : ''}${data.stock ? `&stock=${data.stock}` : ''}` : null,
+            nextLink: data.nextPage ? `http://localhost:${PORT}/products?limit=${data.limit}&page=${data.nextPage}${data.category ? `&category=${data.category}` : ''}${data.stock ? `&stock=${data.stock}` : ''}` : null,
         };
 
         return products;

@@ -9,6 +9,7 @@ import cartApiRouter from './routers/api/cart.router.js';
 
 import indexViewRouter from './routers/views/index.router.js';
 import productViewRouter from './routers/views/product.router.js';
+import cartViewRouter from './routers/views/cart.router.js';
 import realTimeProductsViewRouter from './routers/views/realTimeProducts.router.js';
 import chatViewRouter from './routers/views/chat.router.js';
 
@@ -22,7 +23,7 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'handlebars');
 
-app.use('/', indexViewRouter, productViewRouter, realTimeProductsViewRouter, chatViewRouter);
+app.use('/', indexViewRouter, productViewRouter, cartViewRouter, realTimeProductsViewRouter, chatViewRouter);
 app.use('/api', productApiRouter, cartApiRouter);
 
 app.use((error, req, res, next) => {

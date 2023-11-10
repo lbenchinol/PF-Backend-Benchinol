@@ -32,16 +32,6 @@ router.post('/carts', async (req, res) => {
     }
 });
 
-router.delete('/carts/:cId', async (req, res) => {
-    try {
-        const { params: { cId } } = req;
-        await CartManager.deleteCart(cId);
-        res.status(200).json({ status: 'success', message: 'Carrito eliminado correctamente' });
-    } catch (error) {
-        res.status(error.statusCode || 500).json({ message: error.message });
-    }
-});
-
 router.post('/carts/:cId/product/:pId', async (req, res) => {
     try {
         const { params: { cId } } = req;
@@ -49,6 +39,50 @@ router.post('/carts/:cId/product/:pId', async (req, res) => {
         const { body: { quantity } } = req;
         await CartManager.updateCart(cId, pId, quantity);
         res.status(200).json({ status: 'success', message: 'Carrito actualizado correctamente' });
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
+});
+
+router.put('/carts/:cId', async (req, res) => {
+    try {
+        const { params: { cId } } = req;
+        const { body: { products } } = req;
+        await CartManager.updateWholeCart(cId, products);
+        res.status(200).json({ status: 'success', message: 'Carrito actualizado correctamente' });
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
+});
+
+router.put('/carts/:cId/product/:pId', async (req, res) => {
+    try {
+        const { params: { cId } } = req;
+        const { params: { pId } } = req;
+        const { body: { quantity } } = req;
+        await CartManager.updateCart(cId, pId, quantity);
+        res.status(200).json({ status: 'success', message: 'Carrito actualizado correctamente' });
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
+});
+
+router.delete('/carts/:cId', async (req, res) => {
+    try {
+        const { params: { cId } } = req;
+        await CartManager.deleteCart(cId);
+        res.status(200).json({ status: 'success', message: 'Productos del carrito eliminados correctamente' });
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
+});
+
+router.delete('/carts/:cId/product/:pId', async (req, res) => {
+    try {
+        const { params: { cId } } = req;
+        const { params: { pId } } = req;
+        await CartManager.deleteProductByIdOnCart(cId, pId);
+        res.status(200).json({ status: 'success', message: 'Producto eliminado del carrito correctamente' });
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }
