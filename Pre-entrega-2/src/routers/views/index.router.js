@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', async (req, res) => {
     const data = await ProductManager.getProducts();
     const products = data.payload;
-    res.render('index', { products });
+    res.render('index', { products, style: 'styles.css' });
 });
 
 export default router;

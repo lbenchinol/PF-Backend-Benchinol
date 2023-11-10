@@ -9,7 +9,7 @@ router.get('/products', async (req, res) => {
     try {
         const data = await ProductManager.getProducts(limit, page, sort, category, stock);
         const products = data.payload;
-        res.render('products', { products });
+        res.render('products', { products, style: 'styles.css' });
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

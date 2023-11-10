@@ -9,7 +9,7 @@ router.get('/cart/:cId', async (req, res) => {
         const { params: { cId } } = req;
         const cart = await CartManager.getCartById(cId);
         const products = cart.products;
-        res.render('cart', { products, cId });
+        res.render('carts', { products, cId });
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

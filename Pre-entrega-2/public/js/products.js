@@ -1,6 +1,8 @@
 import { Exception } from '../../src/utils.js';
 import CartManager from '../../src/dao/cartManager.js';
 
+//654d41e5b47f0f8cd6d26ed1
+
 (function () {
 
     let cId;
@@ -39,7 +41,6 @@ import CartManager from '../../src/dao/cartManager.js';
                 position: "right",
                 close: true,
             }).showToast();
-
 
         });
     });
