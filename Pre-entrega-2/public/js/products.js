@@ -1,8 +1,6 @@
-import { Exception } from '../../src/utils.js';
-import CartManager from '../../src/dao/cartManager.js';
-
-//654d41e5b47f0f8cd6d26ed1
-
+/* import { Exception } from '../../src/utils.js';
+import from '../../src/dao/cartManager.js';
+ */
 (function () {
 
     let cId;
@@ -31,7 +29,7 @@ import CartManager from '../../src/dao/cartManager.js';
             try {
                 await CartManager.updateCart(cId, pId, 1);
             } catch (error) {
-                throw new Exception(error.message, error.statusCode);
+                throw new Error(error.message, error.statusCode);
             }
 
             Toastify({

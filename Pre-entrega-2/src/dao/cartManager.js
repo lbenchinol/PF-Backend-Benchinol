@@ -80,12 +80,11 @@ export default class CartManager {
     }
 
     static async getCartById(id) {
-        const filter = { _id: id };
-        const cart = await CartModel.find(filter);
+        const cart = await CartModel.findById(id).populate('products.product');
         if (!cart) {
             throw new Exception(`Error, el ID:${id} no se encontró en el listado de carritos`, 404);
         } else {
-            return cart.map(c => c.toJSON());
+            return cart;
         }
     }
 }

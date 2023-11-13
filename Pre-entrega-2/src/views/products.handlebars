@@ -13,7 +13,7 @@
             <th scope="col">code</th>
             <th scope="col">stock</th>
             <th scope="col">status</th>
-            <th scope="col"></th>
+            {{!-- <th scope="col"></th> --}}
         </tr>
     </thead>
     <tbody>
@@ -28,14 +28,14 @@
             <td>{{this.code}}</td>
             <td>{{this.stock}}</td>
             <td>{{this.status}}</td>
-            <td>
+            {{!-- <td>
                 <button id={{this._id}} class="secondary btnAddToCart">+</button>
-            </td>
+            </td> --}}
         </tr>
         {{/each}}
     </tbody>
 </table>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script src="/js/products.js"></script>
+<script src="/js/products.js"></script> --}}

@@ -13,8 +13,4 @@ cartSchema.pre('find', function () {
     this.populate('products.product');
 });
 
-cartSchema.pre('findById', function () {
-    this.populate('products.product');
-});
-
 export default mongoose.model('carts', cartSchema);
