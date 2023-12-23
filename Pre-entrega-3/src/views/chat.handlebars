@@ -1,0 +1,16 @@
+<div class="center">
+    <h1>Chat</h1>
+</div>
+
+<form id="form-message">
+    <input id="input-message" type="text" placeholder="Escribe aqui tu mensaje" required>
+    <input type="submit" value="Enviar">
+</form>
+
+<table role="grid">
+    <tbody id="chat"></tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>

@@ -1,0 +1,16 @@
+<article>
+    <form action="/api/session/login" method="post">
+        <header>
+            <h1>Identificación</h1>
+        </header>
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+
+        <button type="submit">Iniciar sesión</button>
+    </form>
+    <a class="center" href="/register" role="button">Registrarse</a>
+    <a class="center" href="/api/session/github" role="button">Iniciar sesión con GitHub!</a>
+</article>
