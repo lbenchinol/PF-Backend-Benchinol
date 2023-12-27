@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 
 import config from './config/config.js';
 import { URI } from './db/mongodb.js'
-import { __dirname } from './utils.js';
+import { Exception, __dirname } from './utils.js';
 import { init as initPassportConfig } from './config/passport.config.js';
 
 import productApiRouter from './routers/api/product.router.js';
@@ -56,9 +56,14 @@ app.use('/', indexViewRouter, productViewRouter, cartViewRouter, realTimeProduct
 app.use('/api', productApiRouter, cartApiRouter, sessionApiRouter);
 
 app.use((error, req, res, next) => {
-    const message = `Ha ocurrido un error desconocido: ${error.message}`;
-    console.log(message);
-    res.status(500).json({ status: 'error', message });
+    if (error instanceof Exception) {
+        console.log(error.message);
+        res.status(error.status).json({ status: 'error', message: error.message });
+    } else {
+        const message = `Ha ocurrido un error desconocido: ${error.message}`;
+        console.log(message);
+        res.status(500).json({ status: 'error', message });
+    }
 });
 
 export default app;

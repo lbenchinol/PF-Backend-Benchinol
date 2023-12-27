@@ -1,5 +1,6 @@
 import CartService from '../services/cart.service.js';
 import ProductController from './product.controller.js';
+import TicketController from './ticket.controller.js';
 
 export default class CartController {
     static async get() {
@@ -10,9 +11,8 @@ export default class CartController {
         const cart = await CartService.getById(id);
         if (!cart) {
             throw new Exception(`Error, el ID:${id} no se encontró en el listado de carritos`, 404);
-        } else {
-            return cart;
         }
+        return cart;
     }
 
     static async create() {
@@ -72,10 +72,47 @@ export default class CartController {
         if (!product) {
             throw new Exception(`Error, el ID:${pId} no se encontró en el listado de productos`, 404);
         }
-        const productIndex = cart.products.findIndex(p => p.product.toString() == pId);
-        if (productIndex != -1) {
+        const productIndex = cart.products.findIndex(p => p.product._id == pId);
+        console.log('index: ', productIndex);
+        if (productIndex !== -1) {
             cart.products.splice(productIndex, 1);
         }
-        return await CartController.updateWholeCart(cId, cart);
+        return await CartController.updateWholeCart(cId, cart.products);
+    }
+
+    static async purchase(cId) {
+        const cart = await CartController.getById(cId);
+        const productsToPurchase = [];
+
+        //                 -----        CHECK STOCK     -----
+        cart.products.map(async (p) => {
+            const actualProduct = await ProductController.getById(p.product);
+            if (actualProduct.stock >= p.quantity) {
+                const newQuantity = actualProduct.stock - p.quantity;
+                const productToUpdate = {
+                    title: actualProduct.title,
+                    description: actualProduct.description,
+                    price: actualProduct.price,
+                    thumbnail: actualProduct.thumbnail,
+                    code: actualProduct.code,
+                    stock: newQuantity,
+                    category: actualProduct.category,
+                    status: actualProduct.status
+                };
+                productsToPurchase.push({ product: p.product, quantity: p.quantity });
+
+                console.log('productsToPurchase: ', productToUpdate);
+
+                await ProductController.updateById(p.product, productToUpdate);
+                await CartController.deleteProductByIdOnCart(cId, p.product);
+            }
+        });
+
+        //                 -----        TICKET     -----
+        if (productsToPurchase.length > 0) {
+            TicketController.create(cId, productsToPurchase);
+        }
+
+        return (await CartController.getById(cId)).products;
     }
 }

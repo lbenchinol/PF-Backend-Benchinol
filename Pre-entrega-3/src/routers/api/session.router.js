@@ -2,7 +2,7 @@ import { Router } from 'express';
 import passport from 'passport';
 
 import UserController from '../../controllers/user.controller.js';
-import { authMiddleware } from '../../utils.js';
+import { authenticationMiddleware, authorizationMiddleware } from '../../utils.js';
 
 const router = Router();
 
@@ -14,7 +14,6 @@ router.post('/session/login', async (req, res) => {
     try {
         const { body: { email, password } } = req;
         const user = await UserController.authenticate(email, password);
-        req.session.user = user;
         const { token } = user;
         res
             .cookie('access_token', token, { maxAge: 60000, httpOnly: true, signed: true })
@@ -38,18 +37,22 @@ router.post('/session/local', passport.authenticate('local', { failureRedirect: 
 router.get('/session/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 router.get('/session/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), async (req, res) => {
-    req.session.user = req.user;
-    res.redirect('/products');
+    const { email } = req.user;
+    const user = await UserController.authenticate(email, '', 'Github');
+    const { token } = user;
+    res
+        .cookie('access_token', token, { maxAge: 60000, httpOnly: true, signed: true })
+        .redirect('/products');
 });
 
-router.get('/current', authMiddleware('jwt'), (req, res) => {
+router.get('/current', authenticationMiddleware('jwt'), authorizationMiddleware(['user', 'admin']), (req, res) => {
     res.status(200).json(req.user);
 });
 
 router.get('/session/logout', (req, res) => {
-    req.session.destroy((error) => {
-        res.redirect('/login');
-    });
+    res
+        .clearCookie('access_token')
+        .redirect('/login');
 });
 
 export default router;

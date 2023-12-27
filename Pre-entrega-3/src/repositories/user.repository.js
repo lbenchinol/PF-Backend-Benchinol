@@ -1,4 +1,5 @@
 import UserDTO from '../dto/user.dto.js';
+import { isValidPassword } from '../utils.js';
 
 export default class User {
     constructor(dao) {
@@ -26,7 +27,8 @@ export default class User {
     }
 
     async passwordCheck(email, password) {
-        return this.dao.passwordCheck(email, password);
+        const user = await this.dao.get(email);
+        return isValidPassword(password, user.password);
     }
 
 }

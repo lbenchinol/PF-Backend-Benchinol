@@ -11,13 +11,6 @@ const __filename = fileURLToPath(import.meta.url);
 
 export const __dirname = path.dirname(__filename);
 
-export class Exception extends Error {
-    constructor(message, status) {
-        super(message);
-        this.statusCode = status;
-    }
-};
-
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
 export const isValidPassword = (passwordFlat, passwordEncrypted) => bcrypt.compareSync(passwordFlat, passwordEncrypted);
@@ -39,7 +32,7 @@ export const verifyToken = (token) => {
     });
 };
 
-export const authMiddleware = (strategy) => (req, res, next) => {
+export const authenticationMiddleware = (strategy) => (req, res, next) => {
     passport.authenticate(strategy, function (error, payload, info) {
         if (error) {
             return next(error);
@@ -50,4 +43,37 @@ export const authMiddleware = (strategy) => (req, res, next) => {
         req.user = payload;
         next();
     })(req, res, next);
+};
+
+export const authorizationMiddleware = (roles) => (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const { role: userRole } = req.user;
+    if (!roles.includes(userRole)) {
+        return res.status(403).json({ message: 'No premissions' });
+    }
+    next();
+}
+
+//  -----       EXCEPTIONS ERRORS       -----
+
+export class Exception extends Error {
+    constructor(message, status) {
+        super(message);
+        this.statusCode = status;
+    }
+};
+
+export class BadRequestException extends Exception {
+    constructor(message) {
+        super(message, 400);
+    }
+};
+
+export class NotFoundException extends Exception {
+    constructor(message) {
+        super(message, 404);
+    }
 };

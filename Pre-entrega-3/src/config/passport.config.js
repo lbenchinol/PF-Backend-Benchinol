@@ -62,11 +62,9 @@ export const init = () => {
     passport.use('github', new GitHubStrategy(githubOpts, async (accessToken, refreshToken, profile, done) => {
         try {
             const email = profile._json.email;
-            let userFinded = await UserController.get(email);
-            if (userFinded) {
-                return done(null, userFinded);
-            } else {
-                const user = {
+            let user = await UserController.get(email);
+            if (!user) {
+                const newUser = {
                     first_name: profile._json.name,
                     last_name: '',
                     email,
@@ -74,9 +72,9 @@ export const init = () => {
                     password: '',
                     provider: 'Github',
                 };
-                const newUser = await UserController.create(user);
-                done(null, newUser);
+                user = await UserController.create(newUser);
             }
+            done(null, user);
         } catch (error) {
             done(new Exception(`Ocurrió un error durante la autenticación`, 400));
         }
@@ -87,7 +85,7 @@ export const init = () => {
     }));
 
     passport.serializeUser((user, done) => {
-        done(null, user._id);
+        done(null, user.id);
     });
 
     passport.deserializeUser(async (uid, done) => {

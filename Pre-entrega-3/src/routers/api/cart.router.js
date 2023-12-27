@@ -82,7 +82,17 @@ router.delete('/carts/:cId/product/:pId', async (req, res) => {
         const { params: { cId } } = req;
         const { params: { pId } } = req;
         await CartController.deleteProductByIdOnCart(cId, pId);
-        res.status(200).json({ status: 'success', message: 'Producto eliminado del carrito correctamente' });
+        res.status(204).json({ status: 'success', message: 'Producto eliminado del carrito correctamente' });
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
+});
+
+router.post('/carts/:cId/purchase', async (req, res) => {
+    try {
+        const { params: { cId } } = req;
+        const purchase = await CartController.purchase(cId);
+        res.status(204).json(purchase);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

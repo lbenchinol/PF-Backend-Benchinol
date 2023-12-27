@@ -1,6 +1,6 @@
 import UserService from '../services/user.service.js';
 import config from '../config/config.js';
-import { Exception, createHash, tokenGenerator } from '../utils.js';
+import { BadRequestException, NotFoundException, createHash, tokenGenerator } from '../utils.js';
 import CartController from './cart.controller.js';
 
 const userAdmin = {
@@ -23,11 +23,11 @@ export default class UserController {
 
         if (provider == 'Local') {
             if (first_name == "" || last_name == "" || email == "" || age < 18 || password == "") {
-                throw new Exception('Ingrese los valores correctamente', 400);
+                throw new BadRequestException('Ingrese los valores correctamente');
             }
         } else {
             if (first_name == "" || email == "") {
-                throw new Exception('Ingrese los valores correctamente', 400);
+                throw new BadRequestException('Ingrese los valores correctamente');
             }
         }
         const cart = await CartController.create();
@@ -40,7 +40,7 @@ export default class UserController {
         email !== "" ? email.trim() : email;
 
         if (email == "") {
-            throw new Exception('Ingrese los valores correctamente', 400);
+            throw new BadRequestException('Ingrese los valores correctamente');
         }
 
         //      HARDCODEADO
@@ -54,7 +54,7 @@ export default class UserController {
         id !== "" ? id.trim() : id;
 
         if (id == "") {
-            throw new Exception('Ingrese los valores correctamente', 400);
+            throw new BadRequestException('Ingrese los valores correctamente');
         }
         return await UserService.getById(id);
     }
@@ -63,7 +63,7 @@ export default class UserController {
         const user = await UserController.getById(id);
 
         if (!user) {
-            throw new Exception('Usuario no encontrado', 404);
+            throw new NotFoundException('Usuario no encontrado');
         }
 
         const { first_name: first_name_updated, last_name: last_name_updated, age: age_updated } = body;
@@ -73,7 +73,7 @@ export default class UserController {
         age_updated !== "" ? Number(age_updated) : age_updated;
 
         if (first_name_updated == "" || last_name_updated == "" || age_updated < 18) {
-            throw new Exception('Ingrese los valores correctamente', 400);
+            throw new BadRequestException('Ingrese los valores correctamente');
         }
 
         const userUpdated = { ...user, first_name: first_name_updated, last_name_updated, age: age_updated };
@@ -85,18 +85,21 @@ export default class UserController {
         const user = await UserController.getById(id);
 
         if (!user) {
-            throw new Exception('Usuario no encontrado', 404);
+            throw new NotFoundException('Usuario no encontrado');
         }
 
         return await UserService.deleteById(id);
     }
 
-    static async authenticate(email, password) {
+    static async authenticate(email, password, provider = 'Local') {
         email !== "" ? email.trim() : email;
         password !== "" ? password.trim() : password;
 
-        if (email == "" || password == "") {
-            throw new Exception('Ingrese los valores correctamente', 400);
+        if (email == "") {
+            throw new BadRequestException('Ingrese los valores correctamente');
+        }
+        if (provider == "Local" && password == "") {
+            throw new BadRequestException('Ingrese los valores correctamente');
         }
 
         //      HARDCODEADO
@@ -107,14 +110,15 @@ export default class UserController {
 
         const user = await UserController.get(email);
         if (!user) {
-            throw new Exception('Correo o contraseña incorrectos', 404);
+            throw new NotFoundException('Correo o contraseña incorrectos');
         }
 
-        const isPasswordValid = UserService.passwordCheck(email, password);
-        if (!isPasswordValid) {
-            throw new Exception('Correo o contraseña incorrectos', 404);
+        if (provider == 'Local') {
+            const isPasswordValid = UserService.passwordCheck(email, password);
+            if (!isPasswordValid) {
+                throw new NotFoundException('Correo o contraseña incorrectos');
+            }
         }
-
         const token = tokenGenerator(user);
 
         const { _id, first_name, last_name, role } = user;
