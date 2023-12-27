@@ -5,20 +5,20 @@ import UserController from "./user.controller.js";
 
 export default class TicketController {
     static async create(cId, products) {
-        const email = (await UserController.get(`cart: ${cId}`)).email;
+        const email = (await UserController.find({ cart: cId })).email;
         if (!email) {
             throw new NotFoundException('Carrito de usuario no encontrado');
         }
 
         const amount = products.reduce(async (total, p) => {
-            const price = (await ProductController.getById(p.product)).price;
-            return total + price * p.quantity;
+            const product = await ProductController.getById(p.product);
+            return total + product.price * p.quantity;
         });
 
         let code = Date.now();
         let condition = false;
         do {
-            const checkedCode = await TicketController.get(`code: ${code}`);
+            const checkedCode = await TicketController.get({ code: code });
             if (!checkedCode) {
                 condition = true;
             } else {
@@ -26,11 +26,11 @@ export default class TicketController {
             }
         } while (condition);
 
-        const data = { code, purchase_datetime: '', amount, purchaser: email };
+        const data = { code, amount, purchaser: email };
         await TicketService.create(data);
 
-        const ticket = await TicketController.get(`code: ${code}`);
-        const dataUpdated = `purchase_datetime:${ticket.createdAt}`;
+        const ticket = await TicketController.get({ code: code });
+        const dataUpdated = { purchase_datetime: ticket.createdAt };
         return await TicketController.updateById(ticket._id, dataUpdated);
     }
 

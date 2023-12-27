@@ -9,6 +9,10 @@ export default class UserService {
         return userRepository.getById(id);
     }
 
+    static find(criteria) {
+        return userRepository.find(criteria);
+    }
+
     static create(user) {
         return userRepository.create(user);
     }

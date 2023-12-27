@@ -59,6 +59,13 @@ export default class UserController {
         return await UserService.getById(id);
     }
 
+    static async find(criteria) {
+        if (criteria == {}) {
+            throw new BadRequestException('Ingrese los valores correctamente');
+        }
+        return await UserService.find(criteria);
+    }
+
     static async updateById(id, body) {
         const user = await UserController.getById(id);
 

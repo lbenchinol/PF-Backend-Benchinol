@@ -92,7 +92,7 @@ router.post('/carts/:cId/purchase', async (req, res) => {
     try {
         const { params: { cId } } = req;
         const purchase = await CartController.purchase(cId);
-        res.status(204).json(purchase);
+        res.status(200).json(purchase);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

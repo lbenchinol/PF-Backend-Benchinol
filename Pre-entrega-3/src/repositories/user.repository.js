@@ -14,6 +14,10 @@ export default class User {
         return new UserDTO(await this.dao.getById(id));
     }
 
+    async find(criteria) {
+        return new UserDTO(await this.dao.find(criteria));
+    }
+
     async create(user) {
         return new UserDTO(await this.dao.create(user));
     }

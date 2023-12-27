@@ -64,6 +64,7 @@ export default class CartController {
     }
 
     static async deleteProductByIdOnCart(cId, pId) {
+        console.log('Entro en DELETE');
         const cart = await CartController.getById(cId);
         const product = await ProductController.getById(pId);
         if (!cart) {
@@ -73,7 +74,6 @@ export default class CartController {
             throw new Exception(`Error, el ID:${pId} no se encontró en el listado de productos`, 404);
         }
         const productIndex = cart.products.findIndex(p => p.product._id == pId);
-        console.log('index: ', productIndex);
         if (productIndex !== -1) {
             cart.products.splice(productIndex, 1);
         }
@@ -100,9 +100,6 @@ export default class CartController {
                     status: actualProduct.status
                 };
                 productsToPurchase.push({ product: p.product, quantity: p.quantity });
-
-                console.log('productsToPurchase: ', productToUpdate);
-
                 await ProductController.updateById(p.product, productToUpdate);
                 await CartController.deleteProductByIdOnCart(cId, p.product);
             }

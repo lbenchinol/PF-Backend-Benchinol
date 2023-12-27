@@ -9,6 +9,10 @@ export default class UserDao {
         return UserModel.findById(id);
     }
 
+    find(criteria) {
+        return UserModel.findOne(criteria);
+    }
+
     create(user) {
         return UserModel.create(user);
     }
