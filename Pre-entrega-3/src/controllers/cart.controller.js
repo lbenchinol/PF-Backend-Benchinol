@@ -64,7 +64,6 @@ export default class CartController {
     }
 
     static async deleteProductByIdOnCart(cId, pId) {
-        console.log('Entro en DELETE');
         const cart = await CartController.getById(cId);
         const product = await ProductController.getById(pId);
         if (!cart) {
@@ -73,19 +72,20 @@ export default class CartController {
         if (!product) {
             throw new Exception(`Error, el ID:${pId} no se encontró en el listado de productos`, 404);
         }
-        const productIndex = cart.products.findIndex(p => p.product._id == pId);
+        const productIndex = cart.products.findIndex(p => p.product._id.toString() == pId._id.toString());
+
         if (productIndex !== -1) {
             cart.products.splice(productIndex, 1);
         }
-        return await CartController.updateWholeCart(cId, cart.products);
+        return CartController.updateWholeCart(cId, cart.products);
     }
 
     static async purchase(cId) {
         const cart = await CartController.getById(cId);
-        const productsToPurchase = [];
+        let productsToPurchase = [];
 
         //                 -----        CHECK STOCK     -----
-        cart.products.map(async (p) => {
+        cart.products.forEach(async p => {
             const actualProduct = await ProductController.getById(p.product);
             if (actualProduct.stock >= p.quantity) {
                 const newQuantity = actualProduct.stock - p.quantity;
@@ -100,15 +100,18 @@ export default class CartController {
                     status: actualProduct.status
                 };
                 productsToPurchase.push({ product: p.product, quantity: p.quantity });
+
                 await ProductController.updateById(p.product, productToUpdate);
                 await CartController.deleteProductByIdOnCart(cId, p.product);
             }
         });
 
         //                 -----        TICKET     -----
-        if (productsToPurchase.length > 0) {
-            TicketController.create(cId, productsToPurchase);
-        }
+        setTimeout(() => {
+            if (productsToPurchase.length > 0) {
+                TicketController.create(cId, productsToPurchase);
+            }
+        }, "100");
 
         return (await CartController.getById(cId)).products;
     }
