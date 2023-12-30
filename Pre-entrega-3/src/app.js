@@ -58,7 +58,7 @@ app.use('/api', productApiRouter, cartApiRouter, sessionApiRouter);
 app.use((error, req, res, next) => {
     if (error instanceof Exception) {
         console.log(error.message);
-        res.status(error.status).json({ status: 'error', message: error.message });
+        res.status(error.statusCode).json({ status: 'error', message: error.message });
     } else {
         const message = `Ha ocurrido un error desconocido: ${error.message}`;
         console.log(message);

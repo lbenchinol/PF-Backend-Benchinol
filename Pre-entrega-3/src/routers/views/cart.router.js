@@ -9,7 +9,7 @@ router.get('/cart/:cId', async (req, res) => {
         const { params: { cId } } = req;
         const cart = await CartController.getById(cId);
         const { _id } = cart;
-        const products = cart.products.map(p => p.toJSON());
+        const products = cart.products;
         res.render('carts', { products, _id });
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });

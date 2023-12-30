@@ -1,8 +1,8 @@
 import { userRepository } from '../repositories/index.js';
 
 export default class UserService {
-    static get(email) {
-        return userRepository.get(email);
+    static async get(email) {
+        return await userRepository.get(email);
     }
 
     static getById(id) {
